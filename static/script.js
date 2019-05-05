@@ -67,7 +67,6 @@ class Ride {
         strokeWidth: 4,
       });
       this.map.geoObjects.add(this.path);
-      this.carObj = document.getElementById('car');
       this.wayPointObject = (!wayPoint) ? null : new ymaps.Placemark(wayPoint, {}, {
         preset: 'islands#blackCircleDotIcon'
       });
@@ -88,6 +87,7 @@ class Ride {
   }
   goToPoint([wayPoints, finalPoint, wayPoint]) {
     return new Promise(resolve => {
+      this.carObj = document.getElementById('car');
       this.finalPointUpdate = setInterval(
           () => {
             if(wayPoints.length < 10) return;
