@@ -40,12 +40,11 @@ class Ride {
       iconImageOffset: [-20, -11],
       iconLayout: ymaps.templateLayoutFactory.createClass(
         [
-          '<div style="transform:rotate({{options.rotate}}deg);">',
+          '<div id="car">',
             '{% include "default#image" %}',
           '</div>'
         ].join('')
-      ),
-      iconRotate: 0,
+      )
     });
     this.map.geoObjects.add(this.car);
   }
@@ -68,6 +67,7 @@ class Ride {
         strokeWidth: 4,
       });
       this.map.geoObjects.add(this.path);
+      this.carObj = document.getElementById('car');
       this.wayPointObject = (!wayPoint) ? null : new ymaps.Placemark(wayPoint, {}, {
         preset: 'islands#blackCircleDotIcon'
       });
@@ -106,8 +106,7 @@ class Ride {
           if (!currentTime || (currentTime - previousTime) > this.loopInterval) {
             const pathPoint = wayPoints.shift();
             this.path.geometry.remove(0);
-            if(pathPoint.angle !== this.car.options.get('iconRotate'))
-              this.car.options.set('iconRotate', pathPoint.angle);
+            this.carObj.style.transform = `rotate(${pathPoint.angle}deg)`;
             this.car.geometry.setCoordinates(pathPoint.coords);
             previousTime = currentTime;
           }
